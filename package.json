@@ -1,0 +1,17 @@
+{
+    "name": "babel-plugin-transform-remove-logger",
+    "version": "0.0.1",
+    "description": "Babel plugin to remove logging calls for selected log levels",
+    "main": "./index.js",
+    "keywords": [
+        "babel-plugin",
+        "logging",
+        "minification"
+    ],
+    "author": "Karsten Schmidt <k@thi.ng>",
+    "license": "MIT",
+    "dependencies": {
+        "babel-runtime": "^6.0.0",
+        "thing-iterators": "^1.6.0"
+    }
+}
