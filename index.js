@@ -6,20 +6,25 @@ function makePatterns(levels) {
     return [...ti.mapcat((p) => [`*.LOGGER.${p}`, `LOGGER.${p}`, `*.logger.${p}`, `logger.${p}`], levels)];
 }
 
-
 exports.__esModule = true;
 
 exports.default = function () {
-    const patterns = makePatterns((process.env.LOG_LEVELS || "fine").split(","));
     return {
         visitor: {
-            CallExpression: function CallExpression(path) {
+            CallExpression(path, state) {
+                if (!this.patterns) {
+                    this.patterns = makePatterns((state.opts.levels || "fine,debug").split(","));
+                }
                 const callee = path.get("callee");
-                if (ti.some((p) => callee.matchesPattern(p, true), patterns)) {
-                    path.remove();
+                if (ti.some((p) => callee.matchesPattern(p, true), this.patterns)) {
+                    if (path.parent.type !== "ConditionalExpression") {
+                        path.remove();
+                    } else {
+                        path.replaceWithSourceString("undefined");
+                    }
                 }
             }
-        }
+        },
     };
 };
 
