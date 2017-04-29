@@ -1,19 +1,23 @@
 # babel-plugin-transform-remove-logger
 
-Intended for multi-level logger abstractions, this transformer
-removes logging calls for selected log levels. For example,
-if our logger supports these levels: `fine`, `debug`, `info`, `warn`,
-we might want to remove `fine` & `debug` messages for production builds...
+Intended for multi-level logging implementations, this transformer
+removes logging calls for selected log levels. For example, if our
+logger supports these levels: `fine`, `debug`, `info`, `warn`, we
+might want to remove `fine` & `debug` messages for production
+builds...
 
-Which logging calls are to be elided can be configured via the `LOG_LEVELS` env var.
-See example below. By default only `fine` calls are removed.
+Which logging calls are to be elided can be configured via plugin
+options provided in `.babelrc`. See example below. By default only
+`fine` & `debug` calls are removed.
 
-For each level, the following call patterns are matched:
+For each log level, the following call patterns are matched:
 
 - `logger.<level>(...)`
 - `LOGGER.<level>(...)`
 - `*.logger.<level>(...)`
 - `*.LOGGER.<level>(...)`
+- `*.*.logger.<level>(...)`
+- `*.*.LOGGER.<level>(...)`
 
 ## Installation
 
@@ -33,10 +37,19 @@ $ npm install babel-plugin-transform-remove-logger
 }
 ```
 
+...or with options:
+
+
+```json
+{
+  "plugins": [["transform-remove-logger", { levels: "fine,debug" }]]
+}
+```
+
 ### Via CLI
 
 ```sh
-$ LOG_LEVELS=fine,debug babel --plugins transform-remove-logger script.js
+$ babel --plugins transform-remove-logger script.js
 ```
 
 ### Via Node API

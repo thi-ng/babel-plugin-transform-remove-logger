@@ -1,6 +1,6 @@
 {
     "name": "babel-plugin-transform-remove-logger",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "Babel plugin to remove logging calls for selected log levels",
     "main": "./index.js",
     "keywords": [

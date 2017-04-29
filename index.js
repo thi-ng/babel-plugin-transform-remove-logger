@@ -3,7 +3,13 @@
 const ti = require("thing-iterators");
 
 function makePatterns(levels) {
-    return [...ti.mapcat((p) => [`*.LOGGER.${p}`, `LOGGER.${p}`, `*.logger.${p}`, `logger.${p}`], levels)];
+    return [
+        ...ti.mapcat(
+            (p) => [
+                `*.*.LOGGER.${p}`, `*.LOGGER.${p}`, `LOGGER.${p}`,
+                `*.*.logger.${p}`, `*.logger.${p}`, `logger.${p}`
+            ], levels)
+    ];
 }
 
 exports.__esModule = true;
